@@ -32,6 +32,31 @@ public class PlayerTest {
         assertEquals('O', playerTwo.getLetter());
     }
 
+    /*
+    * Test the get score method for Players
+    * */
+    @Test
+    public void testGetScore(){
+        assertEquals(0, playerOne.getScore());
+        assertEquals(0, playerTwo.getScore());
+    }
+
+    /*
+    * Test the incrementScore method on players
+    * */
+    @Test
+    public void testIncrementScore(){
+        //Increments player one score by 1
+        playerOne.incrementScore();
+        assertEquals(1, playerOne.getScore());
+
+        //Increments player two score by 2
+        playerTwo.incrementScore();
+        playerTwo.incrementScore();
+        assertEquals(2, playerTwo.getScore());
+
+
+    }
 
 
 }

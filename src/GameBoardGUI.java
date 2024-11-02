@@ -34,12 +34,14 @@ public class GameBoardGUI extends JFrame {
                         char currentLetter = game.getCurrentPlayer().getLetter();
                         if (game.getBoard().makeMove(row, column, currentLetter)) {
                             buttons[row][column].setText(String.valueOf(currentLetter));
+                                //Logic for the Simple game and will call on methods in the Board class
                                 if (game.getBoard().checkForSOS(row, column) && game.getGameType().equals("Simple Game")) {
                                     JOptionPane.showMessageDialog(null, game.getCurrentPlayer().getName() + " wins!");
                                     dispose();
 
 
                                 }
+                                //Logic for the General Game and will call on methods in the Board class and Player properties
                                 if(game.getGameType().equals("General Game")){
                                     if(game.getBoard().checkForSOS(row,column)){
                                         game.getCurrentPlayer().incrementScore();
@@ -48,7 +50,7 @@ public class GameBoardGUI extends JFrame {
                                             dispose();
                                         }
 
-
+                                    //What will happen in case of the last move not resulting in a draw
                                     }else{
                                         if(isBoardFull()){
                                             showResults();
@@ -58,7 +60,7 @@ public class GameBoardGUI extends JFrame {
 
 
 
-                                }
+                                }//Switch the players
                                 game.switchTurns();
                                 updateTitle();
 
@@ -73,6 +75,10 @@ public class GameBoardGUI extends JFrame {
         }
     }
 
+    /*
+    * Checks if the board is full
+    * returns false is board isn't full and true if it is
+    * */
     private boolean isBoardFull(){
         for(int i = 0; i < game.getBoard().getSize();i++){
             for(int j = 0; j < game.getBoard().getSize(); j++){
@@ -84,6 +90,9 @@ public class GameBoardGUI extends JFrame {
         return true;
     }
 
+    /*
+    * Shows the results of the game for a General Game and display message with scores
+    * */
     private void showResults(){
         String message;
         if(game.getCurrentPlayer().getScore() > game.getSecondPlayer().getScore()){
@@ -107,6 +116,9 @@ public class GameBoardGUI extends JFrame {
         JOptionPane.showMessageDialog(null, message);
     }
 
+    /*
+    * Updates the Title at the top of the game board
+    * */
     private void updateTitle() {
         setTitle("SOS Game - " + game.getCurrentPlayer().getName() + "'s Turn");
     }

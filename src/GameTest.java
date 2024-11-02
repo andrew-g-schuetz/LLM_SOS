@@ -61,4 +61,12 @@ public class GameTest {
         assertEquals(8, board.getSize());
     }
 
+    /*
+    * Test for getGameType
+    * */
+    @Test
+    public void testGetGameType(){
+        assertEquals("Simple Game", game.getGameType());
+        assertNotEquals("General Game", game.getGameType());
+    }
 }

@@ -52,13 +52,14 @@ public class Game {
         }
     }
 
+    /*
+    * Returns the game type
+    * */
     public String getGameType(){return gameType; }
 
 
 
-    /*public boolean checkForSOS(int row, int col){
-        //return board.hasSOS(row,col);
-    }*/
+
 
 
 

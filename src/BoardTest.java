@@ -79,5 +79,132 @@ public class BoardTest {
         }
     }
 
+    /*
+    * Check for horizontal SOS being true
+    * */
+    @Test
+    public void testSOSSuccessfulHorizontal(){
+        board.makeMove(0,0,'S');
+        board.makeMove(0,1,'O');
+        board.makeMove(0,2,'S');
+
+        boolean result = board.checkForSOS(0,2);
+
+        assertTrue(result);
+    }
+
+    /*
+    * Test for vertical SOS being true
+    * */
+    @Test
+    public void testSOSSuccessfulVertical(){
+        board.makeMove(0,0,'S');
+        board.makeMove(1,0,'O');
+        board.makeMove(2,0,'S');
+
+        boolean result = board.checkForSOS(2,0);
+
+        assertTrue(result);
+    }
+
+    /*
+    * Test for diagonal SOS being true
+    * */
+    @Test
+    public void testSOSDiagonal(){
+        board.makeMove(0,0,'S');
+        board.makeMove(1,1,'O');
+        board.makeMove(2,2,'S');
+
+        boolean result = board.checkForSOS(2,2);
+
+        assertTrue(result);
+    }
+
+    /*
+    * Making sure SOS isn't formed
+    * */
+    @Test
+    public void testSOSWhenNotFormed(){
+
+        board.makeMove(1, 0, 'S');
+        board.makeMove(1, 1, 'O');
+        board.makeMove(1, 2, 'O');
+
+
+        boolean result = board.checkForSOS(1, 2);
+
+
+        assertFalse(result);
+    }
+
+    /*
+     * Making sure SOS isn't formed
+     * */
+    @Test
+    public void testSOSWhenNotFormedTwo(){
+
+        board.makeMove(1, 0, '0');
+        board.makeMove(1, 1, 'O');
+        board.makeMove(1, 2, 'S');
+
+
+        boolean result = board.checkForSOS(1, 2);
+
+
+        assertFalse(result);
+    }
+
+    /*
+     * Making sure SOS isn't formed
+     * */
+    @Test
+    public void testSOSWhenNotFormedThree(){
+
+        board.makeMove(1, 0, '0');
+        board.makeMove(1, 1, 'S');
+        board.makeMove(1, 2, '0');
+
+
+        boolean result = board.checkForSOS(1, 2);
+
+
+        assertFalse(result);
+    }
+
+    /*
+     * Making sure SOS isn't formed
+     * */
+    @Test
+    public void testSOSWhenNotFormedFour(){
+
+        board.makeMove(1, 0, 'S');
+        board.makeMove(1, 1, 'S');
+        board.makeMove(1, 2, 'S');
+
+
+        boolean result = board.checkForSOS(1, 2);
+
+
+        assertFalse(result);
+    }
+
+    /*
+     * Making sure SOS isn't formed
+     * */
+    @Test
+    public void testSOSWhenNotFormedFive(){
+
+        board.makeMove(1, 0, 'O');
+        board.makeMove(1, 1, 'O');
+        board.makeMove(1, 2, 'O');
+
+
+        boolean result = board.checkForSOS(1, 2);
+
+
+        assertFalse(result);
+    }
+
 
 }

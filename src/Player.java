@@ -7,7 +7,7 @@ public class Player {
     private String name;
     //letter the player has chosen: 'S' or 'O'
     private char letter;
-
+    //Score for the player
     private int score;
     /*
     * Player constructor class
