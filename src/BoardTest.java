@@ -5,7 +5,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BoardTest {
 
     private Board board;
-    private Game game ;
+    private Player playerOne = new Player("Andrew", 'S', 0);
+    private Player playerTwo = new Player("Scott", 'O', 0);
+    private Game game = new Game(playerOne, playerTwo, 8, "Simple Game");
     /*
     * Setup a three by three board for the setup
     * */

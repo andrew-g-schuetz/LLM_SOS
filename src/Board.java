@@ -41,6 +41,7 @@ public class Board {
         if(row >= 0 && row < grid.length && column >= 0 && column < grid.length
                  && grid[row][column] == '-'){
             grid[row][column] = letter;
+            turn = (turn == 'S') ?'O':'S';
             return true;
         }
         return false;

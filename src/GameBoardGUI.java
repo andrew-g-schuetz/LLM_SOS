@@ -40,11 +40,21 @@ public class GameBoardGUI extends JFrame {
                                     dispose();
 
 
+                                }else{
+                                    if(isBoardFull() && game.getGameType().equals("Simple Game")){
+                                        JOptionPane.showMessageDialog(null, "Match is a draw! Good Game.");
+                                    }
                                 }
                                 //Logic for the General Game and will call on methods in the Board class and Player properties
                                 if(game.getGameType().equals("General Game")){
                                     if(game.getBoard().checkForSOS(row,column)){
                                         game.getCurrentPlayer().incrementScore();
+//                                        game.switchTurns();
+//                                        if(game.getCurrentPlayer().getLetter() == 'S'){
+//                                            game.getCurrentPlayer().setLetter('O');
+//                                        }else if (game.getCurrentPlayer().getLetter() == 'O'){
+//                                            game.getCurrentPlayer().setLetter('S');
+//                                        }
                                         if(isBoardFull()){
                                             showResults();
                                             dispose();

@@ -34,6 +34,10 @@ public class Player {
         return letter;
     }
 
+    public void setLetter(char letter){
+        this.letter = letter;
+    }
+
     public int getScore(){
         return score;
     }
