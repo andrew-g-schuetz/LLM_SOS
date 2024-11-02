@@ -47,10 +47,10 @@ public class GameplayOptioonsGUI extends JFrame {
             int boardSize = (int) boardSizeComboBox.getSelectedItem();
             char letter = letterComboBox.getSelectedItem().toString().charAt(0);
 
-            Player playerOne = new Player(JOptionPane.showInputDialog("Enter name for Player 1:"), letter);
-            Player playerTwo = new Player(JOptionPane.showInputDialog("Enter name for Player 2:"), letter == 'S' ? 'O': 'S');
-
-            Game game = new Game(playerOne, playerTwo, boardSize);
+            Player playerOne = new Player(JOptionPane.showInputDialog("Enter name for Player 1 (Blue Player):"), letter,0);
+            Player playerTwo = new Player(JOptionPane.showInputDialog("Enter name for Player 2 (Red Player):"), letter == 'S' ? 'O': 'S',0);
+            System.out.println(gameType);
+            Game game = new Game(playerOne, playerTwo, boardSize, gameType);
 
             dispose();
 

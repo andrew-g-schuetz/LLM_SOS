@@ -8,8 +8,8 @@ public class PlayerTest {
     Player playerTwo;
     @BeforeEach
     public void setUp(){
-        playerOne = new Player("Andrew", 'S');
-        playerTwo = new Player("Scott", 'O');
+        playerOne = new Player("Andrew", 'S', 0);
+        playerTwo = new Player("Scott", 'O', 0);
     }
 
     /**

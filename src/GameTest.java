@@ -13,10 +13,10 @@ public class GameTest {
     * */
     @BeforeEach
     public void setUp(){
-        playerOne = new Player("Andrew", 'S');
-        playerTwo = new Player("Scott", 'O');
+        playerOne = new Player("Andrew", 'S',0);
+        playerTwo = new Player("Scott", 'O',0);
 
-        game = new Game(playerOne, playerTwo, 8);
+        game = new Game(playerOne, playerTwo, 8, "Simple Game");
     }
 
     /*

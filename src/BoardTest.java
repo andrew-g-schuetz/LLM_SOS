@@ -5,14 +5,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BoardTest {
 
     private Board board;
-
+    private Game game ;
     /*
     * Setup a three by three board for the setup
     * */
     @BeforeEach
     public void setUp(){
 
-        board = new Board(8);
+         board = new Board(8, game);
     }
 
     @Test
@@ -38,7 +38,7 @@ public class BoardTest {
     * Testing a move out of the bounds of the board
     * */
     @Test
-    public void testinvalidBoundsMove(){
+    public void testInvalidBoundsMove(){
         assertFalse(board.makeMove(-2,-2,'S'));
         assertFalse(board.makeMove(9,9,'O'));
     }

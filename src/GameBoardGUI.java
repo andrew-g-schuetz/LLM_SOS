@@ -34,13 +34,35 @@ public class GameBoardGUI extends JFrame {
                         char currentLetter = game.getCurrentPlayer().getLetter();
                         if (game.getBoard().makeMove(row, column, currentLetter)) {
                             buttons[row][column].setText(String.valueOf(currentLetter));
-                            if (checkForWin()) {
-                                JOptionPane.showMessageDialog(null, game.getCurrentPlayer().getName() + " wins!");
-                                dispose();
-                            } else {
+                                if (game.getBoard().checkForSOS(row, column) && game.getGameType().equals("Simple Game")) {
+                                    JOptionPane.showMessageDialog(null, game.getCurrentPlayer().getName() + " wins!");
+                                    dispose();
+
+
+                                }
+                                if(game.getGameType().equals("General Game")){
+                                    if(game.getBoard().checkForSOS(row,column)){
+                                        game.getCurrentPlayer().incrementScore();
+                                        if(isBoardFull()){
+                                            showResults();
+                                            dispose();
+                                        }
+
+
+                                    }else{
+                                        if(isBoardFull()){
+                                            showResults();
+                                            dispose();
+                                        }
+                                    }
+
+
+
+                                }
                                 game.switchTurns();
                                 updateTitle();
-                            }
+
+
                         } else {
                             JOptionPane.showMessageDialog(null, "Invalid move. Try again.");
                         }
@@ -51,9 +73,38 @@ public class GameBoardGUI extends JFrame {
         }
     }
 
-    private boolean checkForWin() {
+    private boolean isBoardFull(){
+        for(int i = 0; i < game.getBoard().getSize();i++){
+            for(int j = 0; j < game.getBoard().getSize(); j++){
+                if(buttons[i][j].getText().equals("-")){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
-        return false;
+    private void showResults(){
+        String message;
+        if(game.getCurrentPlayer().getScore() > game.getSecondPlayer().getScore()){
+            message = game.getCurrentPlayer().getName() + " Wins\n" +
+                        "Score: " + game.getCurrentPlayer().getScore() + "\n" +
+                    game.getSecondPlayer().getName() + " Loses\n" +
+                    "Score: " + game.getSecondPlayer().getScore() + "\n";
+
+        }else if(game.getSecondPlayer().getScore() > game.getCurrentPlayer().getScore()){
+            message = game.getSecondPlayer().getName() + " Wins\n" +
+                    "Score: " + game.getSecondPlayer().getScore() + "\n" +
+                    game.getCurrentPlayer().getName() + " Loses\n" +
+                    "Score: " + game.getCurrentPlayer().getScore() + "\n";
+        }else{
+            message = "Match is a draw\n" +
+                    game.getSecondPlayer().getName() + "\n" +
+                    "Score: " + game.getSecondPlayer().getScore() + "\n" +
+                    game.getCurrentPlayer().getName() + "\n" +
+                    "Score: " + game.getCurrentPlayer().getScore() + "\n";
+        }
+        JOptionPane.showMessageDialog(null, message);
     }
 
     private void updateTitle() {

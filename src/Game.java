@@ -6,6 +6,7 @@ public class Game {
     private Player playerTwo;
     private Board board;
     private Player currentPlayer;
+    private String gameType;
 
     /*
     * Game constructor
@@ -13,11 +14,12 @@ public class Game {
     * playerTwo: Second player
     * boardSize: size of game board
     * */
-    public Game(Player playerOne, Player playerTwo, int boardSize){
+    public Game(Player playerOne, Player playerTwo, int boardSize, String gameType){
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
-        this.board = new Board(boardSize);
+        this.board = new Board(boardSize,this);
         this.currentPlayer = playerOne;
+        this.gameType = gameType;
     }
 
     /*
@@ -41,6 +43,22 @@ public class Game {
     public Player getCurrentPlayer(){
         return currentPlayer;
     }
+
+    public Player getSecondPlayer(){
+        if (currentPlayer == playerOne){
+            return playerTwo;
+        }else{
+            return playerOne;
+        }
+    }
+
+    public String getGameType(){return gameType; }
+
+
+
+    /*public boolean checkForSOS(int row, int col){
+        //return board.hasSOS(row,col);
+    }*/
 
 
 

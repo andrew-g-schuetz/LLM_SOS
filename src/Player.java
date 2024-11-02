@@ -8,14 +8,16 @@ public class Player {
     //letter the player has chosen: 'S' or 'O'
     private char letter;
 
+    private int score;
     /*
     * Player constructor class
     * String:name: name of the player
     * char:letter: letter of the player
     * */
-    public Player(String name, char letter){
+    public Player(String name, char letter, int score){
         this.name = name;
         this.letter = letter;
+        this.score = score;
     }
 
     /*
@@ -30,6 +32,14 @@ public class Player {
     * */
     public char getLetter(){
         return letter;
+    }
+
+    public int getScore(){
+        return score;
+    }
+
+    public void incrementScore(){
+        score++;
     }
 
 }
