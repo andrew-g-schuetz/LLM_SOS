@@ -32,6 +32,22 @@ public class Board {
         return turn;
     }
 
+    /**
+     * Check if the board is full
+     *
+     * @return True if no empty cells are left, otherwise false
+     */
+    public boolean isBoardFull() {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (grid[i][j] == '-') {
+                    return false; // An empty cell is found
+                }
+            }
+        }
+        return true; // No empty cells left
+    }
+
     /*
     * Make a move on the board
     *

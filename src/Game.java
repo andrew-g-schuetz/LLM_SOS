@@ -52,6 +52,13 @@ public class Game {
         }
     }
 
+    public Player getPlayerOne(){
+        return playerOne;
+    }
+
+    public Player getPlayerTwo(){
+        return playerTwo;
+    }
     /*
     * Returns the game type
     * */
