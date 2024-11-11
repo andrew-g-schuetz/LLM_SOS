@@ -15,7 +15,8 @@ public class SimpleGame implements SOSGameMode {
     @Override
     public boolean checkForWinner(int row, int col){
         if (game.getBoard().checkForSOS(row, col)) {
-            JOptionPane.showMessageDialog(null, game.getCurrentPlayer().getName() + " wins!");
+            showResults();
+
             return true;
         }
         return false;
@@ -32,7 +33,7 @@ public class SimpleGame implements SOSGameMode {
 
     @Override
     public void showResults() {
-        // No need for additional results display in Simple Game
+        JOptionPane.showMessageDialog(null, game.getCurrentPlayer().getName() + " wins!");
     }
 
     private boolean isBoardFull() {

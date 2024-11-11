@@ -97,11 +97,14 @@ public class GameBoardGUI extends JFrame {
                             buttons[row][col].setText(String.valueOf(currentLetter));
 
                             // Check for winner or game over
-                            if (gameMode.checkForWinner(row, col) || gameMode.isGameOver()) {
+                            if (!game.getBoard().checkForSOS(row,col)) {
+                                game.switchTurns();
+
+                            }
+                            if(gameMode.isGameOver()){
                                 gameMode.showResults();
                                 dispose();
-                            } else {
-                                game.switchTurns();
+                            }else{
                                 updateTitle();
                             }
                         } else {
