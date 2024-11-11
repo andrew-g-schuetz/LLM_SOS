@@ -11,16 +11,16 @@ public class GeneralGame implements SOSGameMode{
     public boolean makeMove(int row, int col, char currentLetter) {
 
         boolean validMove = game.getBoard().makeMove(row, col, currentLetter);
-         if(!validMove){
-             return false;
-         }
+        if(!validMove){
+            return false;
+        }
 
-         boolean sosFormed = game.getBoard().checkForSOS(row,col);
-         if(sosFormed){
-             game.getCurrentPlayer().incrementScore();
-         }
+        boolean sosFormed = game.getBoard().checkForSOS(row,col);
+        if(sosFormed){
+            game.getCurrentPlayer().incrementScore();
+        }
 
-         return true;
+        return true;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class GeneralGame implements SOSGameMode{
         String message;
         if (game.getPlayerOne().getScore() > game.getPlayerTwo().getScore()) {
             message = game.getPlayerOne().getName() + " Wins with score: " + game.getPlayerOne().getScore() +"\n"+
-                        game.getPlayerTwo().getName() + " Loses with score: " + game.getPlayerTwo().getScore();
+                    game.getPlayerTwo().getName() + " Loses with score: " + game.getPlayerTwo().getScore();
         } else if (game.getPlayerTwo().getScore() > game.getPlayerOne().getScore()) {
             message = game.getPlayerTwo().getName() + " Wins with score: " + game.getPlayerTwo().getScore() +"\n"+
                     game.getPlayerOne().getName() + " Loses with score: " + game.getPlayerOne().getScore();

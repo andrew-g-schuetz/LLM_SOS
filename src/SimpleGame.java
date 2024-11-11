@@ -2,7 +2,7 @@ import javax.swing.*;
 
 public class SimpleGame implements SOSGameMode {
     private Game game;
-
+    private boolean gameEnded = false;
     public SimpleGame(Game game){
         this.game = game;
     }
@@ -15,7 +15,7 @@ public class SimpleGame implements SOSGameMode {
     @Override
     public boolean checkForWinner(int row, int col){
         if (game.getBoard().checkForSOS(row, col)) {
-            showResults();
+            //showResults();
 
             return true;
         }
@@ -28,6 +28,8 @@ public class SimpleGame implements SOSGameMode {
             JOptionPane.showMessageDialog(null, "Match is a draw! Good Game.");
             return true;
         }
+
+
         return false;
     }
 
@@ -40,5 +42,3 @@ public class SimpleGame implements SOSGameMode {
         return game.getBoard().isBoardFull();
     }
 }
-
-

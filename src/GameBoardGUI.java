@@ -96,6 +96,11 @@ public class GameBoardGUI extends JFrame {
                         if (gameMode.makeMove(row, col, currentLetter)) {
                             buttons[row][col].setText(String.valueOf(currentLetter));
 
+                            if(game.getGameType().equals("Simple Game") && game.getBoard().checkForSOS(row,col)){
+
+                                gameMode.showResults();
+                                dispose();
+                            }
                             // Check for winner or game over
                             if (!game.getBoard().checkForSOS(row,col)) {
                                 game.switchTurns();
