@@ -6,15 +6,17 @@ import java.awt.event.ActionListener;
 public class GameplayOptioonsGUI extends JFrame {
     private JComboBox<String> gameTypeComboBox;
     private JComboBox<Integer> boardSizeComboBox;
+    private JComboBox<String> playerOneOption;
+    private JComboBox<String> playerTwoOption;
     private JComboBox<String> letterComboBox;
     private JButton startGameButton;
 
     public GameplayOptioonsGUI(){
         setTitle("SOS Game Setup");
-        setSize(400,300);
+        setSize(500,300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(4,2));
+        setLayout(new GridLayout(5,2));
 
         JLabel gameTypeLabel = new JLabel("Select Game Type:");
         gameTypeComboBox = new JComboBox<>(new String[]{"Simple Game", "General Game"});
@@ -22,9 +24,15 @@ public class GameplayOptioonsGUI extends JFrame {
         JLabel boardSizeLabel = new JLabel("Select Board Size:");
         boardSizeComboBox = new JComboBox<>(new Integer[]{3,4,5,6,7,8});
 
-        JLabel letterLabel = new JLabel("Choose Your Letter Piece:");
-        letterComboBox = new JComboBox<>(new String[]{"S","O"});
+        JLabel playerOneUser = new JLabel("Player One Type:");
+        playerOneOption = new JComboBox<>(new String[]{"Human", "Computer"});
 
+        JLabel playerTwoUser = new JLabel("Player Two Type:");
+        playerTwoOption = new JComboBox<>(new String[]{"Human", "Computer"});
+
+//        JLabel letterLabel = new JLabel("Choose Your Letter Piece:");
+        letterComboBox = new JComboBox<>(new String[]{"S","O"});
+        JLabel space = new JLabel();
         startGameButton = new JButton("Start Game");
         startGameButton.setPreferredSize(new Dimension(10,20));
         startGameButton.addActionListener(new StartGameAction());
@@ -33,8 +41,13 @@ public class GameplayOptioonsGUI extends JFrame {
         add(gameTypeComboBox);
         add(boardSizeLabel);
         add(boardSizeComboBox);
-        add(letterLabel);
-        add(letterComboBox);
+        add(playerOneUser);
+        add(playerOneOption);
+        add(playerTwoUser);
+        add(playerTwoOption);
+        //add(letterLabel);
+        //add(letterComboBox);
+        add(space);
         add(startGameButton);
 
         setVisible(true);
@@ -46,10 +59,12 @@ public class GameplayOptioonsGUI extends JFrame {
             String gameType = (String) gameTypeComboBox.getSelectedItem();
             int boardSize = (int) boardSizeComboBox.getSelectedItem();
             char letter = letterComboBox.getSelectedItem().toString().charAt(0);
+            String playerOneType = (String)playerOneOption.getSelectedItem();
+            String playerTwoType = (String)playerTwoOption.getSelectedItem();
 
-            Player playerOne = new Player(JOptionPane.showInputDialog("Enter name for Player 1:"), letter,0);
-            Player playerTwo = new Player(JOptionPane.showInputDialog("Enter name for Player 2:"), letter == 'S' ? 'O': 'S',0);
-            System.out.println(gameType);
+            Player playerOne = new Player(JOptionPane.showInputDialog("Enter name for Player 1:"), letter,0, playerOneType);
+            Player playerTwo = new Player(JOptionPane.showInputDialog("Enter name for Player 2:"), letter == 'S' ? 'O': 'S',0, playerTwoType);
+            //System.out.println(gameType);
             Game game = new Game(playerOne, playerTwo, boardSize, gameType);
 
             dispose();

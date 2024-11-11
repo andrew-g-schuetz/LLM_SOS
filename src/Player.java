@@ -9,15 +9,18 @@ public class Player {
     private char letter;
     //Score for the player
     private int score;
+
+    private String playerType;
     /*
     * Player constructor class
     * String:name: name of the player
     * char:letter: letter of the player
     * */
-    public Player(String name, char letter, int score){
+    public Player(String name, char letter, int score, String playerType){
         this.name = name;
         this.letter = letter;
         this.score = score;
+        this.playerType = playerType;
     }
 
     /*
@@ -33,6 +36,8 @@ public class Player {
     public char getLetter(){
         return letter;
     }
+
+    public String getPlayerType(){return playerType;}
 
     public void setLetter(char letter){
         this.letter = letter;

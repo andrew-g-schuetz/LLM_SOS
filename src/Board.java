@@ -48,6 +48,14 @@ public class Board {
         return true; // No empty cells left
     }
 
+    // Get cell value at (row, col)
+    public char getCell(int row, int col) {
+        if (row >= 0 && row < size && col >= 0 && col < size) {
+            return grid[row][col];
+        }
+        return ' ';  // Return a space if the row/col is out of bounds
+    }
+
     /*
     * Make a move on the board
     *

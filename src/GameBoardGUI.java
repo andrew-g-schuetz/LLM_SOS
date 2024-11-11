@@ -50,10 +50,10 @@ public class GameBoardGUI extends JFrame {
         player1S.setSelected(true);
         player2S.setSelected(true);
 
-        playerSelectionPanel.add(new JLabel("Player 1: " + game.getPlayerOne().getName()));
+        playerSelectionPanel.add(new JLabel(game.getPlayerOne().getPlayerType() + " Player 1: " + game.getPlayerOne().getName()));
         playerSelectionPanel.add(player1S);
         playerSelectionPanel.add(player1O);
-        playerSelectionPanel.add(new JLabel("Player 2: " + game.getPlayerTwo().getName()));
+        playerSelectionPanel.add(new JLabel(game.getPlayerOne().getPlayerType() + " Player 2: " + game.getPlayerTwo().getName()));
         playerSelectionPanel.add(player2S);
         playerSelectionPanel.add(player2O);
 
