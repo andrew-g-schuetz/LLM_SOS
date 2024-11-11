@@ -94,25 +94,32 @@ public class GameBoardGUI extends JFrame {
 
                         // Make the move
                         if (gameMode.makeMove(row, col, currentLetter)) {
+                            // Update the button text to reflect the player's chosen letter ('S' or 'O')
                             buttons[row][col].setText(String.valueOf(currentLetter));
 
+                            // Check if the game type is "Simple Game" and if an "SOS" is detected
                             if(game.getGameType().equals("Simple Game") && game.getBoard().checkForSOS(row,col)){
-
+                                // If an "SOS" is detected in Simple Game mode, show results and end the game
                                 gameMode.showResults();
                                 dispose();
+                                return;
                             }
-                            // Check for winner or game over
+                            // Check if no "SOS" was formed in this move
                             if (!game.getBoard().checkForSOS(row,col)) {
+                                // If no "SOS" is detected, switch the current player's turn
                                 game.switchTurns();
 
                             }
+                            // Check if the game is over (board full or end condition met)
                             if(gameMode.isGameOver()){
                                 gameMode.showResults();
                                 dispose();
                             }else{
+                                // If the game is not over, update the title to indicate the next player's turn
                                 updateTitle();
                             }
                         } else {
+                            // If the move was invalid (e.g., cell already occupied), show an error message
                             JOptionPane.showMessageDialog(null, "Invalid move. Try again.");
                         }
                     }

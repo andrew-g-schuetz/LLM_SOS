@@ -35,7 +35,10 @@ public class SimpleGame implements SOSGameMode {
 
     @Override
     public void showResults() {
-        JOptionPane.showMessageDialog(null, game.getCurrentPlayer().getName() + " wins!");
+        if(!isBoardFull()){
+            JOptionPane.showMessageDialog(null, game.getCurrentPlayer().getName() + " wins!");
+        }
+
     }
 
     private boolean isBoardFull() {
