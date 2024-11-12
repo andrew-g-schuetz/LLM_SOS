@@ -10,8 +10,7 @@ public class GameBoardGUI extends JFrame {
     private SOSGameMode gameMode;
     private JRadioButton player1S, player1O, player2S, player2O;
     private ButtonGroup player1Group, player2Group;
-    private boolean playerOneComputer;
-    private boolean playerTwoComputer;
+
 
     public GameBoardGUI(Game game) {
         this.game = game;
@@ -143,7 +142,7 @@ public class GameBoardGUI extends JFrame {
     private void makeComputerMove() {
         // Declare variables as final or effectively final
         final int row, col;
-        final char currentLetter = game.getCurrentPlayer().getLetter();
+        final char currentLetter = Math.random() < 0.5 ? 'S' : 'O';
 
         // Find an empty spot for the move
         int tempRow = -1;
