@@ -1,69 +1,81 @@
+import javax.swing.*;
 import java.util.Random;
 
 public class Computer extends Player {
 
-    public Computer(String name, char letter, String playerType){
-        super(name, letter, 0,playerType);
+    private Game game;
+    private SOSGameMode gameMode;
+    private JButton[][] buttons;
+    private GameBoardGUI gameBoardGUI;
+
+    public Computer(String name, char letter, int score, Game game, SOSGameMode gameMode, JButton[][] buttons, GameBoardGUI gameboardGUI){
+        super(name, letter, score, "Computer");
+        this.game = game;
+        this.gameMode = gameMode;
+        this.buttons = buttons;
+        this.gameBoardGUI = gameboardGUI;
     }
 
-    public void makeMove(Game game){
-        Board board = game.getBoard();
-        Random rand = new Random();
 
-        int[] emptyCells = new int[board.getSize() * board.getSize()];
-        int emptyCount = 0;
 
-        for(int row = 0; row < board.getSize(); row++){
-            for(int col =0; col < board.getSize(); col++){
-                if(board.getCell(row,col) == '-'){
-                    emptyCells[emptyCount++] = row * board.getSize() + col;
+    public void makeComputerMove() {
+        // Declare variables as final or effectively final
+        final int row, col;
+        final char currentLetter = Math.random() < 0.5 ? 'S' : 'O';
+
+        // Find an empty spot for the move
+        int tempRow = -1;
+        int tempCol = -1;
+        while (true) {
+            tempRow = (int) (Math.random() * game.getBoard().getSize());
+            tempCol = (int) (Math.random() * game.getBoard().getSize());
+
+            // Check if the spot is empty (not 'S' or 'O')
+            if (game.getBoard().getCell(tempRow, tempCol) == '-') {
+                break;
+            }
+        }
+
+        row = tempRow;
+        col = tempCol;
+
+        // Make the computer's move logically (without UI update yet)
+        if (gameMode.makeMove(row, col, currentLetter)) {
+            // Use a Swing Timer to delay the UI update and subsequent checks
+            Timer timer = new Timer(2000, e -> {
+                // Update the button's text after the delay
+                buttons[row][col].setText(String.valueOf(currentLetter));
+
+                // Check if it's a Simple Game and if an "SOS" is detected
+                if (game.getGameType().equals("Simple Game") && game.getBoard().checkForSOS(row, col)) {
+                    gameMode.showResults();
+                    //dispose();
+                    return; // Exit if the game ends
                 }
-            }
-        }
 
-        if (emptyCount > 0) {
-            // Pick a random empty spot
-            int randomIndex = rand.nextInt(emptyCount);
-            int cellIndex = emptyCells[randomIndex];
-            int row = cellIndex / board.getSize();
-            int col = cellIndex % board.getSize();
+                // Switch turns only if no "SOS" is found in the current move
+                if (!game.getBoard().checkForSOS(row, col)) {
+                    game.switchTurns();
+                }
 
-            // Make the move for the computer
-            board.makeMove(row, col, getLetter());
+                // Check if the game is over (board full or end condition met)
+                if (gameMode.isGameOver()) {
+                    gameMode.showResults();
+                    //dispose();
+                } else {
+                    gameBoardGUI.updateTitle(); // Update the title to indicate the next player's turn
+                    if (game.getCurrentPlayer().getPlayerType().equals("Computer")) {
+                        makeComputerMove(); // Automatically make the next computer move
+                    }
+                }
+            });
 
-            // Check for SOS formation and update score
-            if (board.checkForSOS(row, col)) {
-                this.incrementScore();
-            }
-        }
-
-    }
-
-    // Method to generate a random move
-    public int[] getRandomMove(Board board) {
-        // Loop until a valid move is found
-        int size = board.getSize();
-        int row, col;
-        do {
-            row = (int) (Math.random() * size);  // Random row
-            col = (int) (Math.random() * size);  // Random column
-        } while (board.getCell(row, col) != '-');  // Ensure the cell is empty
-
-        return new int[] {row, col};  // Return the row and column as an array
-    }
-
-    public void playTurn(Game game, SOSGameMode gameMode) {
-        // Computer makes its move
-        makeMove(game);
-
-        // If the game is over, show results
-        if (gameMode.isGameOver()) {
-            gameMode.showResults();
-        } else {
-            // Switch turns to the next player
-            game.switchTurns();
+            timer.setRepeats(false); // Ensure the timer only runs once
+            timer.start(); // Start the timer
         }
     }
+
+
 
 
 }
