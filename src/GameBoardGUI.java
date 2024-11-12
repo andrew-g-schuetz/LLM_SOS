@@ -138,7 +138,7 @@ public class GameBoardGUI extends JFrame {
                             if (game.getCurrentPlayer().getPlayerType().equals("Computer")) {
 
                                 computerPlayer.makeComputerMove();
-                                updateTitle();
+                                //updateTitle();
                             }
                         } else {
                             JOptionPane.showMessageDialog(null, "Invalid move. Try again.");
