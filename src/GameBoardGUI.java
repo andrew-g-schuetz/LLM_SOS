@@ -64,6 +64,11 @@ public class GameBoardGUI extends JFrame {
         add(playerSelectionPanel, BorderLayout.SOUTH);
 
         setVisible(true);
+
+        // If it's the computer's turn, make the computer's first move automatically
+        if (game.getCurrentPlayer().getPlayerType().equals("Computer")) {
+            makeComputerMove();
+        }
     }
 
     // Initialize the game board buttons
@@ -116,7 +121,9 @@ public class GameBoardGUI extends JFrame {
                                 dispose();
                             } else {
                                 updateTitle();
+
                             }
+
 
                             // Make the computer move if it's the computer's turn
                             if (game.getCurrentPlayer().getPlayerType().equals("Computer")) {
@@ -149,21 +156,27 @@ public class GameBoardGUI extends JFrame {
                 break;
             }
         }
-        try {
-            // Delay for 2 seconds (2000 milliseconds)
-            Thread.sleep(2000);
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
+
         // Make the computer's move
         if (gameMode.makeMove(row, col, currentLetter)) {
-            buttons[row][col].setText(String.valueOf(currentLetter));
 
+            Timer timer = new Timer(2000, e ->{
+                buttons[row][col].setText(String.valueOf(currentLetter));
+            });
+
+            //buttons[row][col].setText(String.valueOf(currentLetter));
             if (game.getGameType().equals("Simple Game") && game.getBoard().checkForSOS(row, col)) {
                 gameMode.showResults();
                 dispose();
                 return;
             }
+
+//            try {
+//                // Delay for 2 seconds (2000 milliseconds)
+//                Thread.sleep(2000);
+//            } catch (InterruptedException ex) {
+//                ex.printStackTrace();
+//            }
 
             if (!game.getBoard().checkForSOS(row, col)) {
                 game.switchTurns();
@@ -176,6 +189,9 @@ public class GameBoardGUI extends JFrame {
             } else {
                 updateTitle();
             }
+
+
+
         }
     }
 
