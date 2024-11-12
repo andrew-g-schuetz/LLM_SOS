@@ -1,7 +1,7 @@
 /*
 * Player class that represents the characteristics of the player
 * */
-public class Player {
+public class Player{
 
     //name to the player given by the user
     private String name;
@@ -10,7 +10,7 @@ public class Player {
     //Score for the player
     private int score;
 
-    private String playerType;
+    private final String playerType;
     /*
     * Player constructor class
     * String:name: name of the player

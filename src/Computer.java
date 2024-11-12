@@ -15,7 +15,7 @@ public class Computer extends Player {
 
         for(int row = 0; row < board.getSize(); row++){
             for(int col =0; col < board.getSize(); col++){
-                if(board.getCell(row,col) == ' '){
+                if(board.getCell(row,col) == '-'){
                     emptyCells[emptyCount++] = row * board.getSize() + col;
                 }
             }
@@ -37,6 +37,19 @@ public class Computer extends Player {
             }
         }
 
+    }
+
+    // Method to generate a random move
+    public int[] getRandomMove(Board board) {
+        // Loop until a valid move is found
+        int size = board.getSize();
+        int row, col;
+        do {
+            row = (int) (Math.random() * size);  // Random row
+            col = (int) (Math.random() * size);  // Random column
+        } while (board.getCell(row, col) != '-');  // Ensure the cell is empty
+
+        return new int[] {row, col};  // Return the row and column as an array
     }
 
     public void playTurn(Game game, SOSGameMode gameMode) {

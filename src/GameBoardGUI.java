@@ -10,6 +10,8 @@ public class GameBoardGUI extends JFrame {
     private SOSGameMode gameMode;
     private JRadioButton player1S, player1O, player2S, player2O;
     private ButtonGroup player1Group, player2Group;
+    private boolean playerOneComputer;
+    private boolean playerTwoComputer;
 
     public GameBoardGUI(Game game) {
         this.game = game;
@@ -53,7 +55,7 @@ public class GameBoardGUI extends JFrame {
         playerSelectionPanel.add(new JLabel(game.getPlayerOne().getPlayerType() + " Player 1: " + game.getPlayerOne().getName()));
         playerSelectionPanel.add(player1S);
         playerSelectionPanel.add(player1O);
-        playerSelectionPanel.add(new JLabel(game.getPlayerOne().getPlayerType() + " Player 2: " + game.getPlayerTwo().getName()));
+        playerSelectionPanel.add(new JLabel(game.getPlayerTwo().getPlayerType() + " Player 2: " + game.getPlayerTwo().getName()));
         playerSelectionPanel.add(player2S);
         playerSelectionPanel.add(player2O);
 
@@ -92,34 +94,36 @@ public class GameBoardGUI extends JFrame {
                             }
                         }
 
-                        // Make the move
+                        // Make the human move
                         if (gameMode.makeMove(row, col, currentLetter)) {
-                            // Update the button text to reflect the player's chosen letter ('S' or 'O')
                             buttons[row][col].setText(String.valueOf(currentLetter));
 
+
                             // Check if the game type is "Simple Game" and if an "SOS" is detected
-                            if(game.getGameType().equals("Simple Game") && game.getBoard().checkForSOS(row,col)){
-                                // If an "SOS" is detected in Simple Game mode, show results and end the game
+                            if (game.getGameType().equals("Simple Game") && game.getBoard().checkForSOS(row, col)) {
                                 gameMode.showResults();
                                 dispose();
                                 return;
                             }
-                            // Check if no "SOS" was formed in this move
-                            if (!game.getBoard().checkForSOS(row,col)) {
-                                // If no "SOS" is detected, switch the current player's turn
-                                game.switchTurns();
 
+                            if (!game.getBoard().checkForSOS(row, col)) {
+                                game.switchTurns();
                             }
+
                             // Check if the game is over (board full or end condition met)
-                            if(gameMode.isGameOver()){
+                            if (gameMode.isGameOver()) {
                                 gameMode.showResults();
                                 dispose();
-                            }else{
-                                // If the game is not over, update the title to indicate the next player's turn
+                            } else {
                                 updateTitle();
                             }
+
+                            // Make the computer move if it's the computer's turn
+                            if (game.getCurrentPlayer().getPlayerType().equals("Computer")) {
+
+                                makeComputerMove();
+                            }
                         } else {
-                            // If the move was invalid (e.g., cell already occupied), show an error message
                             JOptionPane.showMessageDialog(null, "Invalid move. Try again.");
                         }
                     }
@@ -129,6 +133,51 @@ public class GameBoardGUI extends JFrame {
         }
     }
 
+    private void makeComputerMove() {
+        // If it's the computer's turn, make a random move
+        int row, col;
+        char currentLetter = game.getCurrentPlayer().getLetter();
+
+
+        // Keep trying until we find an empty spot
+        while (true) {
+            row = (int) (Math.random() * game.getBoard().getSize());
+            col = (int) (Math.random() * game.getBoard().getSize());
+
+            // Check if the spot is empty (not 'S' or 'O')
+            if (game.getBoard().getCell(row, col) == '-') {
+                break;
+            }
+        }
+        try {
+            // Delay for 2 seconds (2000 milliseconds)
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        // Make the computer's move
+        if (gameMode.makeMove(row, col, currentLetter)) {
+            buttons[row][col].setText(String.valueOf(currentLetter));
+
+            if (game.getGameType().equals("Simple Game") && game.getBoard().checkForSOS(row, col)) {
+                gameMode.showResults();
+                dispose();
+                return;
+            }
+
+            if (!game.getBoard().checkForSOS(row, col)) {
+                game.switchTurns();
+            }
+
+            // Check if the game is over (board full or end condition met)
+            if (gameMode.isGameOver()) {
+                gameMode.showResults();
+                dispose();
+            } else {
+                updateTitle();
+            }
+        }
+    }
 
 
 
