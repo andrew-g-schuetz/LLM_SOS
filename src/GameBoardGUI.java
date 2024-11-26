@@ -20,6 +20,7 @@ public class GameBoardGUI extends JFrame {
     private ButtonGroup player1Group, player2Group;
     private Computer computerPlayer;
     private JButton replayButton;
+    private JButton newGameButton;
     private int boardSize;
 
 
@@ -88,8 +89,22 @@ public class GameBoardGUI extends JFrame {
         replayButton = new JButton("Replay Game");
         replayButton.setEnabled(isRecording);
         replayButton.addActionListener(e -> replayGame());
-        add(replayButton,BorderLayout.NORTH);
 
+        //New Game Button
+        newGameButton = new JButton("New Game");
+        newGameButton.addActionListener(e -> {
+            dispose();
+
+            new GameplayOptioonsGUI();
+        });
+
+        JPanel topPanel = new JPanel(new FlowLayout());
+        topPanel.add(newGameButton);
+        topPanel.add(replayButton);
+
+        add(topPanel,BorderLayout.NORTH);
+
+        //Get the boarderSize for replay
         boardSize = game.getBoard().getSize();
         setVisible(true);
 
@@ -175,7 +190,9 @@ public class GameBoardGUI extends JFrame {
         }
     }
 
-
+    /*
+    * replayGame will replay the moves on the board in the order that they were placed
+    * */
     public void replayGame() {
         // Clear the board
         for (int i = 0; i < boardSize; i++) {
@@ -257,8 +274,9 @@ public class GameBoardGUI extends JFrame {
 
 
 
-
-
+    /*
+    * Update the title on top of the board
+    * */
     public void updateTitle() {
         setTitle("SOS Game - " + game.getCurrentPlayer().getName() + "'s Turn");
     }
