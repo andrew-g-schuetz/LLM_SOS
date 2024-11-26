@@ -1,3 +1,12 @@
-Game Type: Simple Game
+Game Type: General Game
 Board Size: 3
-a vs s
+Tim vs Steve
+Tim (O) moved to [0, 0]
+Steve (S) moved to [1, 2]
+Tim (S) moved to [1, 1]
+Steve (S) moved to [2, 0]
+Tim (S) moved to [1, 0]
+Steve (O) moved to [0, 2]
+Tim (O) moved to [2, 2]
+Steve (S) moved to [2, 1]
+Tim (S) moved to [0, 1]
