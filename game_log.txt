@@ -1,0 +1,6 @@
+Game Type: Simple Game
+Board Size: 3
+and vs sc
+and (S) moved to [0, 0]
+sc (O) moved to [0, 1]
+and (S) moved to [0, 2]

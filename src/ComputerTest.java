@@ -18,10 +18,10 @@ public class ComputerTest {
         Player playerTwo = new Player("Scott", 'O', 0, "Human");
 
         // Mock Game setup with players and a board size of 3
-        mockGame = new Game(playerOne, playerTwo, 3, "Simple Game");
+        mockGame = new Game(playerOne, playerTwo, 3, "Simple Game", false);
 
         // Mock GameBoardGUI setup (assuming it uses the mockGame)
-        mockGameBoardGUI = new GameBoardGUI(mockGame);
+        mockGameBoardGUI = new GameBoardGUI(mockGame, false);
 
         // Create a 3x3 grid of buttons for testing purposes
         buttons = new JButton[3][3];

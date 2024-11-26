@@ -1,13 +1,14 @@
+
 public class Board {
     private char[][] grid;
     private int size;
     private char turn = 'S';
+
     Game game;
 
     public Board(int size, Game game){
         this.size = size;
         this.grid = new char[size][size];
-
         for(int i = 0; i < size; i++){
             for (int j = 0; j < size; j++){
                 grid[i][j] = '-';

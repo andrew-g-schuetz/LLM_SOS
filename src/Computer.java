@@ -45,10 +45,12 @@ public class Computer extends Player {
             Timer timer = new Timer(2000, e -> {
                 // Update the button's text after the delay
                 buttons[row][col].setText(String.valueOf(currentLetter));
+                game.logMove(row, col, currentLetter);
 
                 // Check if it's a Simple Game and if an "SOS" is detected
                 if (game.getGameType().equals("Simple Game") && game.getBoard().checkForSOS(row, col)) {
                     gameMode.showResults();
+                    game.closeLog();
                     //dispose();
                     return; // Exit if the game ends
                 }
@@ -61,6 +63,7 @@ public class Computer extends Player {
                 // Check if the game is over (board full or end condition met)
                 if (gameMode.isGameOver()) {
                     gameMode.showResults();
+                    game.closeLog();
                     //dispose();
                 } else {
                     gameBoardGUI.updateTitle(); // Update the title to indicate the next player's turn

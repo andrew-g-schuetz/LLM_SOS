@@ -10,13 +10,14 @@ public class GameplayOptioonsGUI extends JFrame {
     private JComboBox<String> playerTwoOption;
     private JComboBox<String> letterComboBox;
     private JButton startGameButton;
+    private JCheckBox recordGameCheckBox;
 
     public GameplayOptioonsGUI(){
         setTitle("SOS Game Setup");
         setSize(500,300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(5,2));
+        setLayout(new GridLayout(6,2));
 
         JLabel gameTypeLabel = new JLabel("Select Game Type:");
         gameTypeComboBox = new JComboBox<>(new String[]{"Simple Game", "General Game"});
@@ -32,7 +33,13 @@ public class GameplayOptioonsGUI extends JFrame {
 
 //        JLabel letterLabel = new JLabel("Choose Your Letter Piece:");
         letterComboBox = new JComboBox<>(new String[]{"S","O"});
-        JLabel space = new JLabel();
+
+
+        recordGameCheckBox = new JCheckBox("Record Game");
+
+
+        JLabel spaceOne = new JLabel();
+        JLabel spaceTwo = new JLabel();
         startGameButton = new JButton("Start Game");
         startGameButton.setPreferredSize(new Dimension(10,20));
         startGameButton.addActionListener(new StartGameAction());
@@ -47,7 +54,9 @@ public class GameplayOptioonsGUI extends JFrame {
         add(playerTwoOption);
         //add(letterLabel);
         //add(letterComboBox);
-        add(space);
+        add(spaceOne);
+        add(recordGameCheckBox);
+        add(spaceTwo);
         add(startGameButton);
 
         setVisible(true);
@@ -61,15 +70,16 @@ public class GameplayOptioonsGUI extends JFrame {
             char letter = letterComboBox.getSelectedItem().toString().charAt(0);
             String playerOneType = (String)playerOneOption.getSelectedItem();
             String playerTwoType = (String)playerTwoOption.getSelectedItem();
+            boolean recordGame = recordGameCheckBox.isSelected();
 
             Player playerOne = new Player(JOptionPane.showInputDialog("Enter name for Player 1:"), letter,0, playerOneType);
             Player playerTwo = new Player(JOptionPane.showInputDialog("Enter name for Player 2:"), letter == 'S' ? 'O': 'S',0, playerTwoType);
             //System.out.println(gameType);
-            Game game = new Game(playerOne, playerTwo, boardSize, gameType);
+            Game game = new Game(playerOne, playerTwo, boardSize, gameType, recordGame);
 
             dispose();
 
-            new GameBoardGUI(game);
+            new GameBoardGUI(game, recordGame);
         }
     }
 

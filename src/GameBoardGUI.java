@@ -2,6 +2,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class GameBoardGUI extends JFrame {
 
@@ -11,8 +19,11 @@ public class GameBoardGUI extends JFrame {
     private JRadioButton player1S, player1O, player2S, player2O;
     private ButtonGroup player1Group, player2Group;
     private Computer computerPlayer;
+    private JButton replayButton;
+    private int boardSize;
 
-    public GameBoardGUI(Game game) {
+
+    public GameBoardGUI(Game game, boolean isRecording) {
         this.game = game;
 
         // Set game mode (Simple or General)
@@ -51,6 +62,7 @@ public class GameBoardGUI extends JFrame {
         player1S.setSelected(true);
         player2S.setSelected(true);
 
+        //Disables radio buttons for computer players
         if(game.getPlayerOne().getPlayerType().equals("Computer")){
             player1S.setEnabled(false);
             player1O.setEnabled(false);
@@ -60,6 +72,7 @@ public class GameBoardGUI extends JFrame {
             player2O.setEnabled(false);
         }
 
+        //Add player selection details to the panel
         playerSelectionPanel.add(new JLabel(game.getPlayerOne().getPlayerType() + " Player 1: " + game.getPlayerOne().getName()));
         playerSelectionPanel.add(player1S);
         playerSelectionPanel.add(player1O);
@@ -71,8 +84,16 @@ public class GameBoardGUI extends JFrame {
         add(boardPanel, BorderLayout.CENTER);
         add(playerSelectionPanel, BorderLayout.SOUTH);
 
+        //Replay Game Button
+        replayButton = new JButton("Replay Game");
+        replayButton.setEnabled(isRecording);
+        replayButton.addActionListener(e -> replayGame());
+        add(replayButton,BorderLayout.NORTH);
+
+        boardSize = game.getBoard().getSize();
         setVisible(true);
 
+        //initialize the computer player
         computerPlayer = new Computer(game.getCurrentPlayer().getName(),game.getCurrentPlayer().getLetter(),0,game, gameMode, buttons, this);
         // If it's the computer's turn, make the computer's first move automatically
         if (game.getCurrentPlayer().getPlayerType().equals("Computer")) {
@@ -111,12 +132,14 @@ public class GameBoardGUI extends JFrame {
                         // Make the human move
                         if (gameMode.makeMove(row, col, currentLetter)) {
                             buttons[row][col].setText(String.valueOf(currentLetter));
-
+                            game.logMove(row, col, currentLetter);
 
                             // Check if the game type is "Simple Game" and if an "SOS" is detected
                             if (game.getGameType().equals("Simple Game") && game.getBoard().checkForSOS(row, col)) {
                                 gameMode.showResults();
-                                dispose();
+                                game.closeLog();
+                                //dispose();
+                                replayButton.setEnabled(true);
                                 return;
                             }
 
@@ -127,7 +150,9 @@ public class GameBoardGUI extends JFrame {
                             // Check if the game is over (board full or end condition met)
                             if (gameMode.isGameOver()) {
                                 gameMode.showResults();
-                                dispose();
+                                game.closeLog();
+                                //dispose();
+                                replayButton.setEnabled(true);
                             } else {
                                 updateTitle();
 
@@ -151,6 +176,84 @@ public class GameBoardGUI extends JFrame {
     }
 
 
+    public void replayGame() {
+        // Clear the board
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                buttons[i][j].setText("-");
+            }
+        }
+
+        int boardSize = 0;
+        List<String[]> moves = new ArrayList<>(); // To store moves for delayed replay
+
+        try (BufferedReader br = new BufferedReader(new FileReader("game_log.txt"))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                // Get board size
+                if (line.startsWith("Board Size:")) {
+                    boardSize = Integer.parseInt(line.split(":")[1].trim());
+
+                }
+
+                // Extract moves and player name
+                if (line.matches(".*\\((S|O)\\).*")) {
+                    Pattern pattern = Pattern.compile("(\\w+) \\((S|O)\\).*\\[(\\d+), (\\d+)]");
+                    Matcher matcher = pattern.matcher(line);
+
+                    if (matcher.find()) {
+                        String replayCurrentPlayer = matcher.group(1); // Extract player name
+                        String newLetter = matcher.group(2);           // Extract letter (S or O)
+                        int x = Integer.parseInt(matcher.group(3));    // Extract x-coordinate
+                        int y = Integer.parseInt(matcher.group(4));    // Extract y-coordinate
+
+                        // Store the move details for delayed execution
+                        moves.add(new String[]{replayCurrentPlayer, newLetter, String.valueOf(x), String.valueOf(y)});
+
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
+        }
+
+        // Replay the moves with a delay
+        Timer timer = new Timer(1500, null); // 1000ms (1-second) delay
+        final int[] moveIndex = {0}; // To track the current move
+
+        timer.addActionListener(e -> {
+            if (moveIndex[0] < moves.size()) {
+                // Get the current move
+                String[] move = moves.get(moveIndex[0]);
+                //get the current player
+                String replayCurrentPlayer = move[0];
+                //get the current letter
+                String newLetter = move[1];
+                //positions of letter
+                int x = Integer.parseInt(move[2]);
+                int y = Integer.parseInt(move[3]);
+
+                setTitle("SOS Game - " + replayCurrentPlayer + "'s Turn");
+                // Update the letters on the board
+                buttons[x][y].setText(newLetter);
+
+
+                moveIndex[0]++;
+            } else {
+                // Stop the timer when all moves are replayed
+                ((Timer) e.getSource()).stop();
+                gameMode.showResults();
+            }
+        });
+
+        // Ensure the timer repeats until all moves are replayed
+        timer.setRepeats(true);
+        // Start the timer
+        timer.start();
+
+
+    }
 
 
 

@@ -7,7 +7,7 @@ public class BoardTest {
     private Board board;
     private Player playerOne = new Player("Andrew", 'S', 0, "Human");
     private Player playerTwo = new Player("Scott", 'O', 0, "Human");
-    private Game game = new Game(playerOne, playerTwo, 8, "Simple Game");
+    private Game game = new Game(playerOne, playerTwo, 8, "Simple Game", false);
     /*
     * Setup a three by three board for the setup
     * */

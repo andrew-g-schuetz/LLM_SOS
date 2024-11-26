@@ -16,7 +16,7 @@ public class GameTest {
         playerOne = new Player("Andrew", 'S',0, "Human");
         playerTwo = new Player("Scott", 'O',0, "Human");
 
-        game = new Game(playerOne, playerTwo, 8, "Simple Game");
+        game = new Game(playerOne, playerTwo, 8, "Simple Game", false);
     }
 
     /*
