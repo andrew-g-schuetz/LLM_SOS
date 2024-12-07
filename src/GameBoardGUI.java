@@ -147,7 +147,7 @@ public class GameBoardGUI extends JFrame {
                         // Make the human move
                         if (gameMode.makeMove(row, col, currentLetter)) {
                             buttons[row][col].setText(String.valueOf(currentLetter));
-                            game.logMove(row, col, currentLetter);
+                            //game.logMove(row, col, currentLetter);
 
                             // Check if the game type is "Simple Game" and if an "SOS" is detected
                             if (game.getGameType().equals("Simple Game") && game.getBoard().checkForSOS(row, col)) {
