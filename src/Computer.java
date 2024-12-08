@@ -121,7 +121,7 @@ public class Computer extends Player {
             char currentLetter = (char) move[2];
             System.out.println("Placed " + currentLetter + " on row: " + (int)(row+1) + " and column: " + (int)(col+1));
 
-            // Ensure the move is valid (check if the cell is empty)
+            // Ensure the move is valid and not on an occupied space
             while (game.getBoard().getCell(row, col) != '-') {
                 // If the cell is occupied, request another move from the AI
                 System.out.println("Cell (" + row + ", " + col + ") is already occupied. Asking AI for a new move...");
